@@ -1,0 +1,214 @@
+{
+    "response": "success",
+    "message": "data",
+    "data": [
+        {
+            "lang_id": "1",
+            "lang_name": "Bengali",
+            "data": [
+                {
+                    "type": "movie",
+                    "movie_id": "1",
+                    "movie_title": "test",
+                    "description": "hhg",
+                    "movie_upload": "http://senseamarine.com/luit/uploads/movies/1607094854file_example_MP4_480_1_5MG.mp4",
+                    "trailer_upload": "http://senseamarine.com/luit/uploads/trailer_upload/1607094805quaity length2.mp4",
+                    "audio_languages": [
+                        "Bengali",
+                        "English"
+                    ],
+                    "maturity_rating": "6",
+                    "thumbnail": "http://senseamarine.com/luit/uploads/movie_thumbnail/1607094805sharukh.png",
+                    "poster": "http://senseamarine.com/luit/uploads/movie_poster/1607094805srkhan_autograph.png",
+                    "free": "0",
+                    "amount": "0",
+                    "meta_keyword": "gf",
+                    "meta_description": "fgdf",
+                    "directors": [
+                        "James Camaron",
+                        "Sanjay Leela Bansali"
+                    ],
+                    "actors": [
+                        "Van Disel",
+                        "John Abraham"
+                    ],
+                    "duration": "4",
+                    "ratings": "3",
+                    "publish_year": "2020"
+                },
+                {
+                    "type": "movie",
+                    "movie_id": "3",
+                    "movie_title": "Padmavat",
+                    "description": "Padmaavat is a 2018 Indian Hindi-language epic period drama film directed by Sanjay Leela Bhansali. Loosely based on the epic poem of the same name by Malik Muhammad Jayasi, it stars Deepika Padukone as Rani Padmavati, a Rajput queen known for her beauty, wife of Maharawal Ratan Singh, played by Shahid Kapoor.",
+                    "movie_upload": "http://senseamarine.com/luit/uploads/movies/1607080708dance_culture_drum_989.mp4",
+                    "trailer_upload": "http://senseamarine.com/luit/uploads/trailer_upload/1607080708honey_bee_insect_bee_flower_flying_518.mp4",
+                    "audio_languages": [
+                        "Bengali",
+                        "English",
+                        "Bengali"
+                    ],
+                    "maturity_rating": "2",
+                    "thumbnail": "http://senseamarine.com/luit/uploads/movie_thumbnail/16070807089.jpeg",
+                    "poster": "http://senseamarine.com/luit/uploads/movie_poster/16070807089.jpeg",
+                    "free": "0",
+                    "amount": "100",
+                    "meta_keyword": "",
+                    "meta_description": "",
+                    "directors": [
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "Sanjay Leela Bansali"
+                    ],
+                    "actors": [
+                        "Van Disel",
+                        "John Abraham",
+                        "Van Disel",
+                        "Shahrukh Khan"
+                    ],
+                    "duration": "45",
+                    "ratings": "4.6",
+                    "publish_year": "2008"
+                }
+            ]
+        },
+        {
+            "lang_id": "2",
+            "lang_name": "English",
+            "data": [
+                {
+                    "type": "movie",
+                    "movie_id": "1",
+                    "movie_title": "test",
+                    "description": "hhg",
+                    "movie_upload": "http://senseamarine.com/luit/uploads/movies/1607094854file_example_MP4_480_1_5MG.mp4",
+                    "trailer_upload": "http://senseamarine.com/luit/uploads/trailer_upload/1607094805quaity length2.mp4",
+                    "audio_languages": [
+                        "Bengali",
+                        "English",
+                        "Bengali",
+                        "Bengali",
+                        "English"
+                    ],
+                    "maturity_rating": "6",
+                    "thumbnail": "http://senseamarine.com/luit/uploads/movie_thumbnail/1607094805sharukh.png",
+                    "poster": "http://senseamarine.com/luit/uploads/movie_poster/1607094805srkhan_autograph.png",
+                    "free": "0",
+                    "amount": "0",
+                    "meta_keyword": "gf",
+                    "meta_description": "fgdf",
+                    "directors": [
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "Sanjay Leela Bansali",
+                        "James Camaron",
+                        "Sanjay Leela Bansali"
+                    ],
+                    "actors": [
+                        "Van Disel",
+                        "John Abraham",
+                        "Van Disel",
+                        "Shahrukh Khan",
+                        "Van Disel",
+                        "John Abraham"
+                    ],
+                    "duration": "4",
+                    "ratings": "3",
+                    "publish_year": "2020"
+                },
+                {
+                    "type": "movie",
+                    "movie_id": "2",
+                    "movie_title": "HoneyBee",
+                    "description": "Bee story",
+                    "movie_upload": "http://senseamarine.com/luit/uploads/movies/1607080604videoplayback.mp4",
+                    "trailer_upload": "http://senseamarine.com/luit/uploads/trailer_upload/1607080604dance_culture_drum_989.mp4",
+                    "audio_languages": [
+                        "Bengali",
+                        "English",
+                        "Bengali",
+                        "Bengali",
+                        "English",
+                        "English"
+                    ],
+                    "maturity_rating": "5",
+                    "thumbnail": "http://senseamarine.com/luit/uploads/movie_thumbnail/16070806042.jpeg",
+                    "poster": "http://senseamarine.com/luit/uploads/movie_poster/16070806042.jpeg",
+                    "free": "0",
+                    "amount": "0",
+                    "meta_keyword": "",
+                    "meta_description": "",
+                    "directors": [
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "Sanjay Leela Bansali",
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "James Camaron"
+                    ],
+                    "actors": [
+                        "Van Disel",
+                        "John Abraham",
+                        "Van Disel",
+                        "Shahrukh Khan",
+                        "Van Disel",
+                        "John Abraham",
+                        "John Abraham",
+                        "Shahrukh Khan"
+                    ],
+                    "duration": "120",
+                    "ratings": "4.9",
+                    "publish_year": "2008"
+                },
+                {
+                    "type": "movie",
+                    "movie_id": "4",
+                    "movie_title": "Ghost",
+                    "description": "Ghost Stories",
+                    "movie_upload": "http://senseamarine.com/luit/uploads/movies/1607082180dance_culture_drum_989.mp4",
+                    "trailer_upload": "http://senseamarine.com/luit/uploads/trailer_upload/1607082180videoplayback.mp4",
+                    "audio_languages": [
+                        "Bengali",
+                        "English",
+                        "Bengali",
+                        "Bengali",
+                        "English",
+                        "English",
+                        "English"
+                    ],
+                    "maturity_rating": "1",
+                    "thumbnail": "http://senseamarine.com/luit/uploads/movie_thumbnail/160708218011.jpeg",
+                    "poster": "http://senseamarine.com/luit/uploads/movie_poster/160708218011.jpeg",
+                    "free": "0",
+                    "amount": "0",
+                    "meta_keyword": "",
+                    "meta_description": "",
+                    "directors": [
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "Sanjay Leela Bansali",
+                        "James Camaron",
+                        "Sanjay Leela Bansali",
+                        "James Camaron",
+                        "James Camaron"
+                    ],
+                    "actors": [
+                        "Van Disel",
+                        "John Abraham",
+                        "Van Disel",
+                        "Shahrukh Khan",
+                        "Van Disel",
+                        "John Abraham",
+                        "John Abraham",
+                        "Shahrukh Khan",
+                        "Van Disel",
+                        "John Abraham"
+                    ],
+                    "duration": "20",
+                    "ratings": "3.6",
+                    "publish_year": "2019"
+                }
+            ]
+        }
+    ]
+}
