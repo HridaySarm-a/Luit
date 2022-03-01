@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:luit/Home%20Components/home.dart';
 import 'package:luit/LoadingComponents/loginOTP.dart';
 import 'package:luit/dynamicLink.dart';
+import 'package:luit/models/fetchMusicBySinger/MusicBySingerModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 BuildContext ctx;
@@ -61,6 +62,7 @@ List musicByLanguagesList = [];
 List shortFilmByLanguageList = [];
 List moviesByActors = [];
 List musicByActors = [];
+List musicBySingers = [];
 List actors = [];
 List subscriptionPlans = [];
 List wishList = [];
@@ -141,6 +143,7 @@ Future<void> firebaseSendOtp(BuildContext context, String phoneNumber,
         // print('Received phone auth credential: $authCredential');
       },
       verificationFailed: (FirebaseAuthException authException) {
+        print(authException.stackTrace);
         print(authException.message);
         Fluttertoast.showToast(msg: authException.message);
       },

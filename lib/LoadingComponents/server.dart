@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:luit/apis.dart';
 import 'package:luit/global.dart';
+import 'package:luit/models/fetchMusicBySinger/MusicBySingerModel.dart';
 
 class Server {
   static String baseUrl = "https://release.luit.co.in/api";
+  static String baseUrlhttp = "http://release.luit.co.in/api";
   static final _logger = Logger(
       printer: PrettyPrinter(
     printTime: true,
@@ -1209,7 +1212,12 @@ class Server {
   }
 
   // 30 facebook login
-  static facebookLogin(fId,userName,eMail,pic,) async {
+  static facebookLogin(
+    fId,
+    userName,
+    eMail,
+    pic,
+  ) async {
     String endPoint = baseUrl + "/fb-login";
 
     try {
@@ -1236,9 +1244,9 @@ class Server {
         },
         body: body,
       );
-      Fluttertoast.showToast(msg: "${response.body}", toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(
+          msg: "${response.body}", toastLength: Toast.LENGTH_LONG);
       return response.body;
-
     } catch (e) {
       print(e);
     }
@@ -1449,6 +1457,72 @@ class Server {
         }
 
         musicByActors.add(language);
+      }
+
+      return response.body;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static fetchMusicBySinger() async {
+    String endPoint = baseUrlhttp + "/singer_music";
+
+    try {
+      var response = await http.get(Uri.parse(endPoint));
+      _logger.d("Music by singer ");
+      _logger.d(response);
+      sanitize(response);
+
+      var result = json.decode(response.body);
+
+      musicBySingers = [];
+
+      for (int i = 0; i < result["data"].length; i++) {
+        var language = {
+          "singer_id": result["data"][i]["singer_id"],
+          "singer_name": result["data"][i]["singer_name"],
+          "singer_image": result["data"][i]["singer_image"],
+          "data": []
+        };
+
+        for (int j = 0; j < result["data"][i]["data"].length; j++) {
+          var musicArtist = result["data"][i]["data"][j];
+
+          var music = {
+            "type": musicArtist["type"],
+            "id": musicArtist["id"],
+            "title": musicArtist["title"],
+            "description": musicArtist["description"],
+            "video_url": musicArtist["upload_music"] == null
+                ? null
+                : musicArtist["upload_music"],
+            "trailer_url": musicArtist["upload_trailer"] == null
+                ? null
+                : musicArtist["upload_trailer"],
+            "audio_languages": musicArtist["audio_languages"],
+            "maturity_rating": musicArtist["maturity_rating"],
+            "thumbnail": musicArtist["thumbnail"],
+            "poster": musicArtist["poster"],
+            "amount": musicArtist["amount"],
+            "metaKeyword": musicArtist["meta_keyword"],
+            "metaDescription": musicArtist["meta_description"],
+            "directors": musicArtist["directors"],
+            "actors": musicArtist["actors"],
+            "singers": musicArtist["singer"],
+            "musicDirectors": musicArtist["music_director"],
+            "choreographer": musicArtist["choreographer"],
+            "genre": musicArtist["genre"],
+            "duration": musicArtist["duration"],
+            "ratings": musicArtist["ratings"],
+            "publish_year": musicArtist["publish_year"],
+            "status": musicArtist["status"]
+          };
+
+          language["data"].add(music);
+        }
+
+        musicBySingers.add(language);
       }
 
       return response.body;

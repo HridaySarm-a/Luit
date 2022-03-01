@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luit/Home%20Components/home.dart';
 import 'package:luit/LoadingComponents/server.dart';
 import 'package:luit/global.dart';
+import 'package:luit/models/fetchMusicBySinger/MusicBySingerModel.dart';
 import 'package:luit/models/user.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -22,8 +23,8 @@ class _LoadingScreenState extends State<LoadingScreen>
     getUserProfile();
     getSubscriptionPlans();
     getMoviesByLanguages();
+    getMusicBySinger();
     getMoviesByArtist();
-    getMusicByArtist();
   }
 
   @override
@@ -155,6 +156,63 @@ class _LoadingScreenState extends State<LoadingScreen>
       }
 
       moviesByActors.add(language);
+    }
+  }
+
+  // Music By Singers
+  getMusicBySinger() async {
+    var response = await Server.fetchMusicBySinger();
+
+    var result = json.decode(response);
+
+    musicBySingers = [];
+
+    for (int i = 0; i < result["data"].length; i++) {
+      var language = {
+        "singer_id": result["data"][i]["singer_id"],
+        "singer_name": result["data"][i]["singer_name"],
+        "singer_image": result["data"][i]["singer_image"],
+        "data": []
+      };
+
+      for (int j = 0; j < result["data"][i]["data"].length; j++) {
+        var musicArtist = result["data"][i]["data"][j];
+        //var langMusic = result["data"][i]["data"][j];
+
+        var music = {
+          "type": musicArtist["type"],
+          "id": musicArtist["id"],
+          "title": musicArtist["title"],
+          "description": musicArtist["description"],
+          "video_url": musicArtist["upload_music"] == null
+              ? null
+              : musicArtist["upload_music"],
+          "trailer_url": musicArtist["upload_trailer"] == null
+              ? null
+              : musicArtist["upload_trailer"],
+          "audio_languages": musicArtist["audio_languages"],
+          "maturity_rating": musicArtist["maturity_rating"],
+          "thumbnail": musicArtist["thumbnail"],
+          "poster": musicArtist["poster"],
+          "amount": musicArtist["amount"],
+          "metaKeyword": musicArtist["meta_keyword"],
+          "metaDescription": musicArtist["meta_description"],
+          "directors": musicArtist["directors"],
+          "actors": musicArtist["actors"],
+          "singers": musicArtist["singer"],
+          "musicDirectors": musicArtist["music_director"],
+          "choreographer": musicArtist["choreographer"],
+          "genre": musicArtist["genre"],
+          "duration": musicArtist["duration"],
+          "ratings": musicArtist["ratings"],
+          "publish_year": musicArtist["publish_year"],
+          "status": musicArtist["status"]
+        };
+
+        language["data"].add(music);
+      }
+
+      musicBySingers.add(language);
     }
   }
 

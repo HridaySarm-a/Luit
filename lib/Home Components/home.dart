@@ -11,11 +11,14 @@ import 'package:luit/Home%20Components/gridView.dart';
 import 'package:luit/LoadingComponents/server.dart';
 import 'package:luit/Menu%20Bar/VideoPlayer/chewiePlayer.dart';
 import 'package:luit/global.dart';
+import 'package:luit/models/fetchMusicBySinger/MusicBySingerModel.dart';
 import 'package:luit/utilities/popup.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
+
+import 'gridView2.dart';
 
 class Home extends StatefulWidget {
   Home({this.reload = true});
@@ -177,7 +180,7 @@ class HomeState extends State<Home> {
     Server.displayWishlist();
     getMovies();
     getMoviesByArtist();
-    getMusicByArtist();
+    getMusicBySinger();
     getMoviesByLanguages();
     getMusic();
     getShortFilms();
@@ -201,6 +204,15 @@ class HomeState extends State<Home> {
     getMusic();
     getNewReleasedMusic();
     getMusicByLanguage();
+    getMusicBySinger();
+  }
+
+  getMusicBySinger() async {
+    await Server.fetchMusicBySinger();
+
+    this.setState(() {
+      shimmerState = true;
+    });
   }
 
   fetchShortFilm() async {
@@ -606,7 +618,7 @@ class HomeState extends State<Home> {
               ),
               // MY LIST PLAY AND SHARE BUTTONS
               sliderList.length <= 0
-                  ? SizedBox.shrink()
+                  ? shrinkSizedBox()
                   : Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .45,
@@ -699,7 +711,7 @@ class HomeState extends State<Home> {
                                       Icons.share,
                                       color: Colors.white,
                                     ),
-                                    onPressed: () async{
+                                    onPressed: () async {
                                       for (int i = 0;
                                           i < allVideos.length;
                                           i++) {
@@ -721,13 +733,15 @@ class HomeState extends State<Home> {
                                               .then((newDynamicLink) async {
                                             // print(newDynamicLink + " Dynamic Link");
 
-
-                                            final uri = Uri.parse(allVideos[i]["thumbnail"]);
+                                            final uri = Uri.parse(
+                                                allVideos[i]["thumbnail"]);
                                             final res = await http.get(uri);
                                             final bytes = res.bodyBytes;
 
-                                            final temp = await getTemporaryDirectory();
-                                            final path = '${temp.path}/image.jpg';
+                                            final temp =
+                                                await getTemporaryDirectory();
+                                            final path =
+                                                '${temp.path}/image.jpg';
                                             File(path).writeAsBytesSync(bytes);
 
                                             await Share.shareFiles(
@@ -736,7 +750,6 @@ class HomeState extends State<Home> {
                                                   allVideos[i]["title"] +
                                                   "\n" +
                                                   newDynamicLink,
-
                                             );
                                             Navigator.pop(context);
                                           });
@@ -816,35 +829,41 @@ class HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         lastPlayedVideos.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Continue Watching", lastPlayedVideos, context),
         lastPlayedVideos.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : continueWatchingTile(lastPlayedVideos),
         movies.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Latest Movies", movies, context),
-        movies.length == 0 ? SizedBox.shrink() : imageTile(movies),
+        movies.length == 0 ? shrinkSizedBox() : imageTile(movies),
         moviesByActors.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Movie by Artist", moviesByActors, context),
         moviesByActors.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : circularAvatar(moviesByActors),
+        musicBySingers.length == 0
+            ? shrinkSizedBox()
+            : titleText("Music by Singers", musicBySingers, context),
+        musicBySingers.length == 0
+            ? shrinkSizedBox()
+            : circularAvatar2(musicBySingers),
         // series.length == 0 ? SizedBox.shrink() : titleText("Latest Series", series, context),
         // series.length == 0 ? SizedBox.shrink() : imageTile(series),
         movies.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Movies by Language", moviesByLanguagesList, context),
-        movies.length == 0 ? SizedBox.shrink() : circularAvatarLanguages(),
+        movies.length == 0 ? shrinkSizedBox() : circularAvatarLanguages(),
         music.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Latest Music", music, context),
-        music.length == 0 ? SizedBox.shrink() : imageTile(music),
+        music.length == 0 ? shrinkSizedBox() : imageTile(music),
         shortFilms.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Kids", shortFilms, context),
-        shortFilms.length == 0 ? SizedBox.shrink() : imageTile(shortFilms),
+        shortFilms.length == 0 ? shrinkSizedBox() : imageTile(shortFilms),
       ],
     );
   }
@@ -855,17 +874,17 @@ class HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         newReleasedMovies.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("New Releases", newReleasedMovies, context),
         newReleasedMovies.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : imageTile(newReleasedMovies),
         movies.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleTextByCategory(title, context, movies),
-        movies.length == 0 ? SizedBox.shrink() : imageTile(movies),
+        movies.length == 0 ? shrinkSizedBox() : imageTile(movies),
         moviesByLanguagesList.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : movieByLanguage(context)
       ],
     );
@@ -892,24 +911,35 @@ class HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         music.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("New Releases", music, context),
-        music.length == 0 ? SizedBox.shrink() : imageTile(music),
+        music.length == 0 ? shrinkSizedBox() : imageTile(music),
         music.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleTextByCategory(title, context, music),
-        music.length == 0 ? SizedBox.shrink() : imageTile(music),
+        music.length == 0 ? shrinkSizedBox() : imageTile(music),
         musicByLanguagesList.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : musicByLanguage(context),
-        musicByActors.length == 0
-            ? SizedBox.shrink()
-            : titleText("Music by Artist", musicByActors, context),
-        musicByActors.length == 0
-            ? SizedBox.shrink()
-            : circularAvatar(musicByActors),
+        // musicByActors.length == 0
+        //     ? shrinkSizedBox()
+        //     : titleText("Music by Artist", musicByActors, context),
+        // musicByActors.length == 0
+        //     ? shrinkSizedBox()
+        //     : circularAvatar(musicByActors),
+        musicBySingers.length == 0
+            ? shrinkSizedBox()
+            : titleText("Music by Singers", musicBySingers, context),
+        musicBySingers.length == 0
+            ? shrinkSizedBox()
+            : circularAvatar2(musicBySingers),
       ],
     );
+  }
+
+  SizedBox shrinkSizedBox() {
+    print("Empty List");
+    return SizedBox.shrink();
   }
 
   // SHORT FILMS HOME PAGE
@@ -918,17 +948,17 @@ class HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         newReleasedShortFilms.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("New Releases", newReleasedShortFilms, context),
         newReleasedShortFilms.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : imageTile(newReleasedShortFilms),
         shortFilms.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : titleText("Kids", shortFilms, context),
-        shortFilms.length == 0 ? SizedBox.shrink() : imageTile(shortFilms),
+        shortFilms.length == 0 ? shrinkSizedBox() : imageTile(shortFilms),
         shortFilmByLanguageList.length == 0
-            ? SizedBox.shrink()
+            ? shrinkSizedBox()
             : shortFilmsByLanguage(context)
       ],
     );
@@ -978,7 +1008,7 @@ class HomeState extends State<Home> {
                                                 width: 25,
                                                 child: Image.asset(
                                                     "assets/images/premium.png"))
-                                            : SizedBox.shrink()
+                                            : shrinkSizedBox()
                                       ],
                                     ),
                                     onTap: () {
@@ -1046,7 +1076,7 @@ class HomeState extends State<Home> {
                                                 width: 25,
                                                 child: Image.asset(
                                                     "assets/images/premium.png"))
-                                            : SizedBox.shrink()
+                                            : shrinkSizedBox()
                                       ],
                                     ),
                                     onTap: () {
@@ -1136,8 +1166,12 @@ class HomeState extends State<Home> {
             InkWell(
               child: Text("View All"),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ViewAll(items)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => text == "Music by Singers"
+                            ? ViewAll2(items)
+                            : ViewAll(items)));
               },
             )
           ],
@@ -1174,7 +1208,7 @@ class HomeState extends State<Home> {
     );
   }
 
-  // MOVIE BY ATRIST
+  // MOVIE BY ARTIST
   Widget circularAvatar(circularImages) {
     return SizedBox(
         height: 200,
@@ -1219,6 +1253,56 @@ class HomeState extends State<Home> {
                         Padding(
                           padding: EdgeInsets.only(top: 7),
                           child: Text(circularImages[position]["actor_name"]
+                              .toString()),
+                        )
+                      ]));
+            }));
+  }
+
+  Widget circularAvatar2(circularImages) {
+    return SizedBox(
+        height: 200,
+        child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: circularImages.length < 10 ? circularImages.length : 10,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 16.0, top: 4.0),
+            itemBuilder: (BuildContext context, int position) {
+              var outerCircleRadius = MediaQuery.of(context).size.width * 0.15;
+              var innerCircleRadiues = outerCircleRadius * 0.95;
+
+              return Container(
+                  margin: EdgeInsets.only(left: 5, right: 5),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          child: CircleAvatar(
+                              radius: outerCircleRadius,
+                              backgroundColor: Color(0xffFDCF09),
+                              child: CircleAvatar(
+                                backgroundColor: Color(0xff02071A),
+                                foregroundColor: Colors.white,
+                                radius: innerCircleRadiues,
+                                backgroundImage: NetworkImage(circularImages[
+                                                position]["singer_image"]
+                                            .toString() ==
+                                        null
+                                    ? "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                                    : circularImages[position]["singer_image"]
+                                        .toString()),
+                              )),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewAll2(
+                                        circularImages[position]["data"])));
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 7),
+                          child: Text(circularImages[position]["singer_name"]
                               .toString()),
                         )
                       ]));
@@ -1315,7 +1399,7 @@ class HomeState extends State<Home> {
                                       width: 25,
                                       child: Image.asset(
                                           "assets/images/premium.png"))
-                                  : SizedBox.shrink()
+                                  : shrinkSizedBox()
                             ],
                           ),
                           onTap: () {
@@ -1392,11 +1476,11 @@ class HomeState extends State<Home> {
   getMoviesByArtist() async {
     await Server.fecthMoviesByActors();
   }
-
-  // MOVIES BY ARTIST
-  getMusicByArtist() async {
-    await Server.fecthMusicByActors();
-  }
+  //
+  // // MOVIES BY ARTIST
+  // getMusicBySinger() async {
+  //   await Server.fetchMusicBySinger();
+  // }
 
   // MUSIC BY LANGUAGES
   getMusicByLanguage() async {

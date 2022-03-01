@@ -1,66 +1,42 @@
 {
   "project_info": {
-    "project_number": "948906487843",
-    "firebase_url": "https://luit-278109.firebaseio.com",
-    "project_id": "luit-278109",
-    "storage_bucket": "luit-278109.appspot.com"
+    "project_number": "509010036327",
+    "project_id": "luit-fe5b2",
+    "storage_bucket": "luit-fe5b2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:948906487843:android:c7555796a638bf86308196",
+        "mobilesdk_app_id": "1:509010036327:android:7e6940f260718687dd76c2",
         "android_client_info": {
           "package_name": "com.luit.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "948906487843-g2vflslv0cdhgvjgg36rdqrpdnn9aeu2.apps.googleusercontent.com",
+          "client_id": "509010036327-jnnp698pkeegirstbdsqldn8h24i3csg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luit.com",
-            "certificate_hash": "0cb0ed98c3048b0774e0b1bbe2988003ec22de9a"
+            "certificate_hash": "002466e9b39f9cdadfe2647e6d106a1d83b75f3a"
           }
         },
         {
-          "client_id": "948906487843-3192lv7gkkgm9phmani6159p5fulo4ev.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.luit.com",
-            "certificate_hash": "953e222023baacc08a8877ef646fb00c503da464"
-          }
-        },
-        {
-          "client_id": "948906487843-1dhrmj4qeqv42p7gie4425hpffkk0go2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.luit.com",
-            "certificate_hash": "b24ae8d36ebdf093b506543bb6eb490d91ed5df9"
-          }
-        },
-        {
-          "client_id": "948906487843-68r676j5vooaremhcsab72olgel6tqqa.apps.googleusercontent.com",
+          "client_id": "509010036327-6q5di5v5qbvi2pkdpt5bh3fvfpkpvp4n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDjWOc-0LufyZEERbQ0C2wt3UYUL4pvY_Y"
+          "current_key": "AIzaSyAg5kpg9XU43i5pQ6GwhuMyl7FapTmm2QE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "948906487843-l90gqeaigpk4vgbgm90f7p7kvj4p60nq.apps.googleusercontent.com",
+              "client_id": "509010036327-6q5di5v5qbvi2pkdpt5bh3fvfpkpvp4n.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "948906487843-0icjicmuogvitqatu9jprcvk8tenpe0a.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.luit.com"
-              }
             }
           ]
         }

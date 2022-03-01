@@ -127,6 +127,57 @@ class LoginState extends State<Login> {
     );
   }
 
+  Future<void> fbLogin() async {
+    final plugin = FacebookLogin(debug: true);
+    String _sdkVersion;
+    FacebookAccessToken _token;
+    FacebookUserProfile _profile;
+    String _email;
+    String _imageUrl;
+    await plugin.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
+    await _updateLoginInfo(plugin);
+  }
+
+  Future<void> _updateLoginInfo(FacebookLogin plugin) async {
+    final token = await plugin.accessToken;
+    FacebookUserProfile profile;
+    String email;
+    String imageUrl;
+
+    if (token != null) {
+      profile = await plugin.getUserProfile();
+      if (token.permissions.contains(FacebookPermission.email.name)) {
+        email = await plugin.getUserEmail();
+      }
+      imageUrl = await plugin.getProfileImageUrl(width: 100, height: 100);
+    }
+    UserModel userModel = UserModel(
+        pictureModel: PictureModel(url: imageUrl, width: 100, height: 100),
+        email: email,
+        id: token.token);
+    _currentUser = userModel;
+    // var temp = json.decode();
+    print(userModel);
+
+    // Main user object.
+    // luitUser["name"] = temp["name"];
+    // luitUser["email"] = temp["email"];
+    // luitUser["image"] = temp["picture"]["data"]["url"];
+    // // Main user object.
+    // print(graphResponse.body);
+    facebookLoginWithBackend(_currentUser, context);
+    // setState(() {
+    //
+    //   // _token = token;
+    //   // _profile = profile;
+    //   // _email = email;
+    //   // _imageUrl = imageUrl;
+    // });
+  }
+
   Widget willPopScope(context) {
     double fontSize = getFontSize(context);
 
@@ -260,7 +311,8 @@ class LoginState extends State<Login> {
                     Expanded(
                         child: TextFormField(
                       inputFormatters: [
-                        new LengthLimitingTextInputFormatter(11), // for mobile
+                        new LengthLimitingTextInputFormatter(11),
+                        // for mobile
                       ],
                       keyboardType: TextInputType.number,
                       controller: phoneField,
@@ -426,171 +478,171 @@ class LoginState extends State<Login> {
 
     final LoginResult result = await FacebookAuth.i.login();
 
-        if(result.status == LoginStatus.success) {
-          _accessToken = result.accessToken;
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
 
-         final data = await FacebookAuth.i.getUserData();
-         UserModel model = UserModel.fromJson(data);
-         _currentUser = model;
-         // var temp = json.decode();
-          print(data);
+      final data = await FacebookAuth.i.getUserData();
+      UserModel model = UserModel.fromJson(data);
+      _currentUser = model;
+      // var temp = json.decode();
+      print(data);
 
-              // Main user object.
-              // luitUser["name"] = temp["name"];
-              // luitUser["email"] = temp["email"];
-              // luitUser["image"] = temp["picture"]["data"]["url"];
-              // // Main user object.
-              // print(graphResponse.body);
-          facebookLoginWithBackend(_currentUser, context);
-        }
-
-        //break;
-    }
-  }
-
-  // get user credentials from google
-  initiateGoogleLogin(context) async {
-    await Firebase.initializeApp();
-
-    var googleResponse = await googleSignIn.signIn();
-
-    username = googleResponse.displayName;
-    googleId = googleResponse.id;
-    email = googleResponse.email;
-    profilePic = googleResponse.photoUrl;
-
-    try {
-      signInWithGoogle().whenComplete(() {
-        googleLoginWithBackend(context);
-      });
-    } catch (e) {
-      Fluttertoast.showToast(msg: "Error in fetching user credentials");
-    }
-  }
-
-  // function to store user logged in status into shared preference
-  addBoolToSF() async {
-    await prefs.setBool("isLoggedIn", true);
-  }
-
-  // pack press event in login page
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(milliseconds: 10000)) {
-      currentBackPressTime = now;
-      Fluttertoast.showToast(msg: "Press again to exit.");
-      // return Future.value(false);
+      // Main user object.
+      // luitUser["name"] = temp["name"];
+      // luitUser["email"] = temp["email"];
+      // luitUser["image"] = temp["picture"]["data"]["url"];
+      // // Main user object.
+      // print(graphResponse.body);
+      facebookLoginWithBackend(_currentUser, context);
     }
 
-    return SystemNavigator.pop();
-    // return null;
+    //break;
+  }
+}
+
+// get user credentials from google
+initiateGoogleLogin(context) async {
+  await Firebase.initializeApp();
+
+  var googleResponse = await googleSignIn.signIn();
+
+  username = googleResponse.displayName;
+  googleId = googleResponse.id;
+  email = googleResponse.email;
+  profilePic = googleResponse.photoUrl;
+
+  try {
+    signInWithGoogle().whenComplete(() {
+      googleLoginWithBackend(context);
+    });
+  } catch (e) {
+    Fluttertoast.showToast(msg: "Error in fetching user credentials");
+  }
+}
+
+// function to store user logged in status into shared preference
+addBoolToSF() async {
+  await prefs.setBool("isLoggedIn", true);
+}
+
+// pack press event in login page
+Future<bool> onWillPop() {
+  DateTime now = DateTime.now();
+  if (currentBackPressTime == null ||
+      now.difference(currentBackPressTime) > Duration(milliseconds: 10000)) {
+    currentBackPressTime = now;
+    Fluttertoast.showToast(msg: "Press again to exit.");
+    // return Future.value(false);
   }
 
-  // TODO: Refactor this function.
-  facebookLoginWithBackend(_currentUser, context) async {
+  return SystemNavigator.pop();
+  // return null;
+}
+
+// TODO: Refactor this function.
+facebookLoginWithBackend(_currentUser, context) async {
   UserModel user = _currentUser;
-    username = user.name;
-    email = user.email;
-    profilePic = user.pictureModel.url;
-    facebookId = user.id;
-  Fluttertoast.showToast(msg: "Sending Data To Backend", toastLength: Toast.LENGTH_LONG);
-    var data = await Server.facebookLogin(user.id,user.name,user.email,user.pictureModel.url,);
+  username = user.name;
+  email = user.email;
+  profilePic = user.pictureModel.url;
+  facebookId = user.id;
+  Fluttertoast.showToast(
+      msg: "Sending Data To Backend", toastLength: Toast.LENGTH_LONG);
+  var data = await Server.facebookLogin(
+    user.id,
+    user.name,
+    user.email,
+    user.pictureModel.url,
+  );
 
-    var result = json.decode(data);
+  var result = json.decode(data);
 
-    if (result["response"] == "success") {
-      userId = result["userdata"][0]["id"];
-      username = result["userdata"][0]["name"];
-      profilePic = result["userdata"][0]["image"];
-      joinedDate = result["userdata"][0]["created_at"];
-      mobile = result["userdata"][0]["mobile"];
-      email = result["userdata"][0]["email"];
+  if (result["response"] == "success") {
+    userId = result["userdata"][0]["id"];
+    username = result["userdata"][0]["name"];
+    profilePic = result["userdata"][0]["image"];
+    joinedDate = result["userdata"][0]["created_at"];
+    mobile = result["userdata"][0]["mobile"];
+    email = result["userdata"][0]["email"];
 
-      luitUser["id"] = userId;
-      luitUser["name"] = username;
-      luitUser["image"] = profilePic;
-      luitUser["email"] = email;
-      luitUser["mobile"] = null;
-      luitUser["joinedOn"] = null;
-      luitUser["dob"] = null;
+    luitUser["id"] = userId;
+    luitUser["name"] = username;
+    luitUser["image"] = profilePic;
+    luitUser["email"] = email;
+    luitUser["mobile"] = null;
+    luitUser["joinedOn"] = null;
+    luitUser["dob"] = null;
 
-      // print(luitUser);
+    // print(luitUser);
 
-      setSharedPreference("isLoggedIn", true, isBool: true);
-      setSharedPreference("luitUser", json.encode(luitUser));
+    setSharedPreference("isLoggedIn", true, isBool: true);
+    setSharedPreference("luitUser", json.encode(luitUser));
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoadingScreen()));
-    } else {
-      Fluttertoast.showToast(msg: "Error in login, please try again");
-    }
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoadingScreen()));
+  } else {
+    Fluttertoast.showToast(msg: "Error in login, please try again");
   }
+}
 
-  // TODO: Refactor this function.
-  googleLoginWithBackend(context) async {
-    var temp = await Server.googleLogin();
+// TODO: Refactor this function.
+googleLoginWithBackend(context) async {
+  var temp = await Server.googleLogin();
 
-    var result = json.decode(temp);
+  var result = json.decode(temp);
 
-    print(result);
+  print(result);
 
-    if (result["response"] == "success") {
-      userId = result["userdata"][0]["id"];
-      username = result["userdata"][0]["name"];
-      profilePic = result["userdata"][0]["image"];
-      joinedDate = result["userdata"][0]["created_at"];
-      mobile = result["userdata"][0]["mobile"];
-      email = result["userdata"][0]["email"];
+  if (result["response"] == "success") {
+    userId = result["userdata"][0]["id"];
+    username = result["userdata"][0]["name"];
+    profilePic = result["userdata"][0]["image"];
+    joinedDate = result["userdata"][0]["created_at"];
+    mobile = result["userdata"][0]["mobile"];
+    email = result["userdata"][0]["email"];
 
-      luitUser["id"] = userId;
-      luitUser["name"] = username;
-      luitUser["image"] = profilePic;
-      luitUser["email"] = email;
-      luitUser["mobile"] = null;
-      luitUser["joinedOn"] = null;
-      luitUser["dob"] = null;
+    luitUser["id"] = userId;
+    luitUser["name"] = username;
+    luitUser["image"] = profilePic;
+    luitUser["email"] = email;
+    luitUser["mobile"] = null;
+    luitUser["joinedOn"] = null;
+    luitUser["dob"] = null;
 
-      setSharedPreference("isLoggedIn", true, isBool: true);
-      setSharedPreference("luitUser", jsonEncode(luitUser));
+    setSharedPreference("isLoggedIn", true, isBool: true);
+    setSharedPreference("luitUser", jsonEncode(luitUser));
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoadingScreen()));
-    } else {
-      Fluttertoast.showToast(msg: "Error in login, please try again");
-    }
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoadingScreen()));
+  } else {
+    Fluttertoast.showToast(msg: "Error in login, please try again");
   }
+}
 
-
-  class UserModel{
+class UserModel {
   final String email;
   final String id;
   final String name;
   final PictureModel pictureModel;
 
-  const UserModel({this.pictureModel,this.email,this.id,this.name});
-  factory UserModel.fromJson(Map<String,dynamic> json) =>
-      UserModel(
-          email: json["email"],
-          id: json["id"] as String,
-         name: json["name"],
-        pictureModel: PictureModel.fromJson(json["picture"]["data"])
-      );
-  }
+  const UserModel({this.pictureModel, this.email, this.id, this.name});
 
-  class PictureModel{
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+      email: json["email"],
+      id: json["id"] as String,
+      name: json["name"],
+      pictureModel: PictureModel.fromJson(json["picture"]["data"]));
+}
+
+class PictureModel {
   final String url;
   final int height;
-  final String width;
-  const PictureModel({this.url,this.width,this.height});
+  final int width;
 
+  const PictureModel({this.url, this.width, this.height});
 
-  factory PictureModel.fromJson(Map<String,dynamic> json) =>
-      PictureModel(
-        url: json["url"],
-        width: json["width"],
-        height: json["height"]
-      );
-  }
+  factory PictureModel.fromJson(Map<String, dynamic> json) => PictureModel(
+      url: json["url"], width: json["width"], height: json["height"]);
+}
 
 //}
