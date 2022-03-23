@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "509010036327",
+    "project_id": "luit-fe5b2",
+    "storage_bucket": "luit-fe5b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509010036327:android:7e6940f260718687dd76c2",
+        "android_client_info": {
+          "package_name": "com.luit.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509010036327-jnnp698pkeegirstbdsqldn8h24i3csg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luit.com",
+            "certificate_hash": "002466e9b39f9cdadfe2647e6d106a1d83b75f3a"
+          }
+        },
+        {
+          "client_id": "509010036327-6q5di5v5qbvi2pkdpt5bh3fvfpkpvp4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg5kpg9XU43i5pQ6GwhuMyl7FapTmm2QE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509010036327-6q5di5v5qbvi2pkdpt5bh3fvfpkpvp4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
